@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artifact Incubator</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <div id="blob"></div>
+        <div id="blur"></div>
+    </div>
+
+    <div id="popup">
+        <div id="popup-content">
+          <p>Here's some information for you!</p>
+        </div>
+    </div>  
+  
+    <div class="title">
+        <b>Artifact Incubator
+    </div>
+        <button id="button"><span>Connect Wallet</span></button></body>
+
+    <div class="modal1">
+        <div class="modal1-box">
+          <div class="modal1-content">
+              <h2 class="modal1-title">Choose a wallet</h2>
+                <button class="wallet-btn" id="Phantom">Phantom Wallet</button>
+                <button class="wallet-btn" id="Solflare">Solflare Wallet</button>
+                <button class="wallet-btn" id="quit">Return</button>
+            </div>
+        </div>
+      </div>
+
+    <div class="public-key-box">
+      <div class="public-key-wrapper">
+        <div class="public-key">Public Key</div>
+        <div class="public-key-value">---</div>
+      </div>
+      <button id="disconnect-button">Disconnect</button>
+    </div>
+      <div class="image-box"></div>
+      <div class="info-bar1">
+        <img id="sol-pic-info-bar" src="./assets/sol.png" alt="">
+        <img id="sushi-pic-info-bar" src="./assets/sushi.png" alt="">
+        <p id="sol-balance">Balance: 0.0</p>
+        <p id="sushi-balance">Balance: 0.0</p>
+      </div>
+      <div class="weapon-box"></div>
+      <div class="info-bar2">
+        <p id="weapon-counter">Weapon Count: 0</p>
+      </div>
+      <div class="upgrade-box">
+        <div class="upgrade-frame">
+            <div class="upgrade-wep-image-div"></div>
+          <div class="upgrade-image-div"></div>
+        </div>
+      </div>
+      <div id="bottom-sizedbox"></div>
+
+    <div class="lower-logos">
+        <a target="_blank" href="https://twitter.com/Suteki_NFT"><img id="twitter"src="./assets/twitter.svg" alt=""></a>
+        <a target="_blank" href="https://discord.gg/szXnugSxSu"><img id="discors"src="./assets/discord-logo.png" alt=""></a>
+        <a target="_blank" href="https://magiceden.io/creators/suteki"><img id="ME"src="./assets/android-chrome-512x512.png" alt=""></a>
+    </div>
+
+    <div class="custom-alert">
+        <p id="custom-alert-message"></p>
+      </div>
+    <script type="module" src="build/bundle.js"></script>
+
+</body>
+</html>
