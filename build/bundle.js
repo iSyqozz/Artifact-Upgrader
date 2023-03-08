@@ -3079,14 +3079,14 @@ function remove_selections() {
     }
     catch (e) { }
     chosen = '';
-    teki_image_box.src = "'./assets/base-invis.PNG'";
+    teki_image_box.src = './assets/base-invis.PNG';
     //clearing weapon
     try {
         selected_weapon.classList.remove('curr-chosen');
     }
     catch (e) { }
     selected_weapon = '';
-    weapon_image_box.src = '"./assets/wep_placeholder.png"';
+    weapon_image_box.src = './assets/wep_placeholder.png';
     toggle_upgrade_ready();
 }
 function dim(is_transaction) {
@@ -3423,7 +3423,7 @@ function connect_wallet() {
                     const info_container = document.createElement('div');
                     const placeholder = document.createElement('div');
                     placeholder.classList.add('loader-vis');
-                    wep_box.appendChild(placeholder);
+                    teki_box.appendChild(placeholder);
                     img.src = nft_data[2];
                     img.onload = () => {
                         placeholder.style.display = 'none';
@@ -3506,7 +3506,7 @@ function connect_wallet() {
                     const info_container = document.createElement('div');
                     const placeholder = document.createElement('div');
                     placeholder.classList.add('loader-vis');
-                    teki_box.appendChild(placeholder);
+                    wep_box.appendChild(placeholder);
                     img.src = nft_data[2];
                     img.onload = () => {
                         placeholder.style.display = 'none';
