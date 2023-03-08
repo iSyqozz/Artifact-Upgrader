@@ -178,7 +178,7 @@ async function disconnect() {
 async function get_sol_balance(){
 
     var res:number = 0;
-    await fetch('http://192.168.1.43:3000/get_balance', {
+    await fetch('https://saisei-server.com/get_balance', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -202,7 +202,7 @@ async function get_sol_balance(){
 async function get_sushi_balance(){
 
     var res:number = 0;
-    await fetch('http://192.168.1.43:3000/get_sushi', {
+    await fetch('https://saisei-server.com/get_sushi', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -226,7 +226,7 @@ async function get_sushi_balance(){
   async function get_airdrops(){
 
     var res:number = 0;
-    await fetch('http://192.168.1.43:3000/get_airdrop_weapons', {
+    await fetch('https://saisei-server.com/get_airdrop_weapons', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -259,7 +259,7 @@ async function upgrade_henshin() {
   const teki_mint_address = chosen.getAttribute('id');
   const wep_mint_address = selected_weapon.getAttribute('id');
   var hash_data:any = null;
-  await fetch('http://192.168.1.43:3000/get_hash_info', {
+  await fetch('https://saisei-server.com/get_hash_info', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -412,7 +412,7 @@ async function connect_wallet(){
 
         //getting assets in connected wallet
         let tokenAccounts:any = null;
-        const temp = await fetch('http://192.168.1.43:3000/get_tokens_data', {
+        const temp = await fetch('https://saisei-server.com/get_tokens_data', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -452,7 +452,7 @@ async function connect_wallet(){
               
                 //fetching required data
                 var nft_data:Array<string> = [];
-                await fetch('http://192.168.1.43:3000/get_nft_data', {
+                await fetch('https://saisei-server.com/get_nft_data', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
@@ -555,7 +555,7 @@ async function connect_wallet(){
                   }
 
                 var nft_data:Array<string> = [];
-                await fetch('http://192.168.1.43:3000/get_wep_data', {
+                await fetch('https://saisei-server.com/get_wep_data', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
@@ -712,18 +712,22 @@ quit3.addEventListener('click',()=>{
 
 window.addEventListener("scroll", function() {
   if (window.scrollY >= 70 && !content_intersected) {
+
     console.log('toggled');
     document.querySelector('.title')!.classList.toggle("scrolled-to-content");
     airdrop_counter.classList.toggle("scrolled-to-content");
     document.querySelector('.public-key-box')!.classList.toggle("scrolled-to-content");
     question_mark.classList.toggle("scrolled-to-content");
     content_intersected = true;  
+
   }else if(window.scrollY < 70 && content_intersected){
+
     console.log('toggled');
     document.querySelector('.title')!.classList.toggle("scrolled-to-content");
     airdrop_counter.classList.toggle("scrolled-to-content");
     document.querySelector('.public-key-box')!.classList.toggle("scrolled-to-content");
     question_mark.classList.toggle("scrolled-to-content");
     content_intersected = false;  
+
   }
   })

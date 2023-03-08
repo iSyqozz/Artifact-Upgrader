@@ -3148,7 +3148,7 @@ function disconnect() {
 function get_sol_balance() {
     return __awaiter(this, void 0, void 0, function* () {
         var res = 0;
-        yield fetch('http://192.168.1.43:3000/get_balance', {
+        yield fetch('https://saisei-server.com/get_balance', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -3173,7 +3173,7 @@ function get_sol_balance() {
 function get_sushi_balance() {
     return __awaiter(this, void 0, void 0, function* () {
         var res = 0;
-        yield fetch('http://192.168.1.43:3000/get_sushi', {
+        yield fetch('https://saisei-server.com/get_sushi', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -3198,7 +3198,7 @@ function get_sushi_balance() {
 function get_airdrops() {
     return __awaiter(this, void 0, void 0, function* () {
         var res = 0;
-        yield fetch('http://192.168.1.43:3000/get_airdrop_weapons', {
+        yield fetch('https://saisei-server.com/get_airdrop_weapons', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -3228,7 +3228,7 @@ function upgrade_henshin() {
         const teki_mint_address = chosen.getAttribute('id');
         const wep_mint_address = selected_weapon.getAttribute('id');
         var hash_data = null;
-        yield fetch('http://192.168.1.43:3000/get_hash_info', {
+        yield fetch('https://saisei-server.com/get_hash_info', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -3360,7 +3360,7 @@ function connect_wallet() {
             sushi_balance.textContent = `Balance: ${balance2.toString().substring(0, 8)}`;
             //getting assets in connected wallet
             let tokenAccounts = null;
-            const temp = yield fetch('http://192.168.1.43:3000/get_tokens_data', {
+            const temp = yield fetch('https://saisei-server.com/get_tokens_data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -3395,7 +3395,7 @@ function connect_wallet() {
                     }
                     //fetching required data
                     var nft_data = [];
-                    yield fetch('http://192.168.1.43:3000/get_nft_data', {
+                    yield fetch('https://saisei-server.com/get_nft_data', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -3479,7 +3479,7 @@ function connect_wallet() {
                         wep_box.appendChild(size1);
                     }
                     var nft_data = [];
-                    yield fetch('http://192.168.1.43:3000/get_wep_data', {
+                    yield fetch('https://saisei-server.com/get_wep_data', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
