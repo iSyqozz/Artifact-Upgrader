@@ -31,8 +31,8 @@ const sol_balance = document.querySelector('#sol-balance') as HTMLElement;
 const info_bar1 = document.querySelector('.info-bar1') as HTMLElement;
 const info_bar2 = document.querySelector('.info-bar2') as HTMLElement;
 const weapon_image_box = document.querySelector('.upgrade-wep-image-div') as HTMLImageElement;
-const teki_image_box = document.querySelector('.upgrade-image-div') as HTMLElement;
-const clear_selection = document.querySelector('.clear-selection') as HTMLElement;
+const teki_image_box = document.querySelector('.upgrade-image-div') as HTMLImageElement;
+const clear_selection = document.querySelector('.clear-selection') as HTMLImageElement;
 const upgrade_button = document.querySelector('.upgrade-button') as HTMLElement;
 const question_mark = document.querySelector('#faq') as HTMLElement;
 const airdrop_modal = document.querySelector('.modal3')as HTMLElement;
@@ -106,14 +106,14 @@ function remove_selections(){
     }catch(e){}
 
     chosen = '';
-    teki_image_box.style.backgroundImage = "url('./assets/base-invis.PNG')";
-    
+    teki_image_box.src = "'./assets/base-invis.PNG'";
+  
     //clearing weapon
     try{
       selected_weapon.classList.remove('curr-chosen');
     }catch(e){}
     selected_weapon = '';
-    weapon_image_box.style.backgroundImage = 'url("./assets/wep_placeholder.png")';    
+    weapon_image_box.src = '"./assets/wep_placeholder.png"';    
     toggle_upgrade_ready();
   }
 
@@ -537,7 +537,7 @@ async function connect_wallet(){
                   chosen = info_container;
                   chosen.classList.add('curr-chosen');
 
-                  teki_image_box.style.backgroundImage = `url(${img.src})`;
+                  teki_image_box.src = `${img.src}`;
                   wep_box.scrollIntoView({behavior:'smooth'});
                   toggle_upgrade_ready();
                 })
@@ -621,7 +621,7 @@ async function connect_wallet(){
                   selected_weapon = info_container;
                   selected_weapon.classList.add('curr-chosen');
                   
-                  weapon_image_box.style.backgroundImage = `url(${img.src})`;
+                  weapon_image_box.src = `${img.src}`;
                   upgrade_box.scrollIntoView({behavior:'smooth'});
                   toggle_upgrade_ready();
                   })

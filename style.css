@@ -812,15 +812,11 @@ body{
     z-index: 2;
     top: 435px;
     left: 320px;
-    background-image: url('./assets/clear_selection.png');
     width: 45px;
     height: 45px;
     border-radius: 100rem;
     border: 2px solid #dce7ec;
     box-shadow: 0 0 5px 10px rgba(1, 149, 160, 0.2);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
     cursor: pointer;
   }
   .upgrade-button {

@@ -3079,14 +3079,14 @@ function remove_selections() {
     }
     catch (e) { }
     chosen = '';
-    teki_image_box.style.backgroundImage = "url('./assets/base-invis.PNG')";
+    teki_image_box.src = "'./assets/base-invis.PNG'";
     //clearing weapon
     try {
         selected_weapon.classList.remove('curr-chosen');
     }
     catch (e) { }
     selected_weapon = '';
-    weapon_image_box.style.backgroundImage = 'url("./assets/wep_placeholder.png")';
+    weapon_image_box.src = '"./assets/wep_placeholder.png"';
     toggle_upgrade_ready();
 }
 function dim(is_transaction) {
@@ -3463,7 +3463,7 @@ function connect_wallet() {
                             teki_image_box.classList.remove('upgrade-image-div-placeholder');
                             chosen = info_container;
                             chosen.classList.add('curr-chosen');
-                            teki_image_box.style.backgroundImage = `url(${img.src})`;
+                            teki_image_box.src = `${img.src}`;
                             wep_box.scrollIntoView({ behavior: 'smooth' });
                             toggle_upgrade_ready();
                         });
@@ -3531,7 +3531,7 @@ function connect_wallet() {
                         catch (e) { }
                         selected_weapon = info_container;
                         selected_weapon.classList.add('curr-chosen');
-                        weapon_image_box.style.backgroundImage = `url(${img.src})`;
+                        weapon_image_box.src = `${img.src}`;
                         upgrade_box.scrollIntoView({ behavior: 'smooth' });
                         toggle_upgrade_ready();
                     });
