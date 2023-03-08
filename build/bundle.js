@@ -3022,6 +3022,8 @@ const upgrade_button = document.querySelector('.upgrade-button');
 const question_mark = document.querySelector('#faq');
 const airdrop_modal = document.querySelector('.modal3');
 const quit3 = document.querySelector('#quit3');
+const choice_modal = document.querySelector('.modal2');
+const quit2 = document.querySelector('#quit2');
 //variables
 var balance1 = 0;
 var balance2 = 0;
@@ -3049,7 +3051,8 @@ function showAlert(message, color) {
     }, 3000);
 }
 const primary_click_event = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield upgrade_henshin();
+    choice_modal.style.display = 'flex';
+    //await upgrade_henshin()
 });
 function toggle_upgrade_ready() {
     if (selected_weapon === '' || chosen === '') {
@@ -3633,6 +3636,10 @@ window.addEventListener("scroll", function () {
         question_mark.classList.toggle("scrolled-to-content");
         content_intersected = false;
     }
+});
+quit2.addEventListener('click', function (e) {
+    choice_modal.style.display = 'none';
+    //console.log(chosen);
 });
 
 },{"./544ZHb9RNiZbBdfW8TdYMp7tUAbHESs8LtDNR2SVqrC8_mint_accounts.json":1,"./suteki-mints.json":3,"@solana/web3.js":30,"bn.js":33}],3:[function(require,module,exports){

@@ -37,6 +37,10 @@ const upgrade_button = document.querySelector('.upgrade-button') as HTMLElement;
 const question_mark = document.querySelector('#faq') as HTMLElement;
 const airdrop_modal = document.querySelector('.modal3')as HTMLElement;
 const quit3 = document.querySelector('#quit3')as HTMLElement;
+const choice_modal = document.querySelector('.modal2')as HTMLElement;
+const quit2 = document.querySelector('#quit2')as HTMLElement;
+
+
 
 
 //variables
@@ -72,9 +76,12 @@ function showAlert(message:string,color:string) {
     }, 3000);
 }
 
+
 const primary_click_event = async ()=>{
-  await upgrade_henshin()
+  choice_modal.style.display = 'flex';
+  //await upgrade_henshin()
 }
+
 
 function toggle_upgrade_ready(){
   if (selected_weapon === '' || chosen === ''){
@@ -723,7 +730,7 @@ window.addEventListener("scroll", function() {
     question_mark.classList.toggle("scrolled-to-content");
     content_intersected = true;  
 
-  }else if(window.scrollY < 70 && content_intersected){
+    }else if(window.scrollY < 70 && content_intersected){
 
     console.log('toggled');
     document.querySelector('.title')!.classList.toggle("scrolled-to-content");
@@ -731,6 +738,10 @@ window.addEventListener("scroll", function() {
     document.querySelector('.public-key-box')!.classList.toggle("scrolled-to-content");
     question_mark.classList.toggle("scrolled-to-content");
     content_intersected = false;  
-
-  }
+    }
   })
+
+quit2.addEventListener('click', function(e) {
+    choice_modal.style.display = 'none'
+    //console.log(chosen);
+  });

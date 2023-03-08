@@ -886,6 +886,138 @@ body{
     transition: box-shadow 0.5s ease-in-out;
   }
 
+  .modal2 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    overflow: auto;
+  }
+  
+  .modal2-box {
+    background: linear-gradient(to bottom right, #5b6263, #173f5a);
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 500px;
+    text-align: center;
+    animation-name: modalFadeIn;
+    animation-duration: 1s;
+  
+  }
+  @keyframes modalFadeIn {
+    from {
+      transform: translateY(70%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .modal2-title {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+
+  }
+  
+  .modal2-content {
+    font-family: 'Shadows Into Light', cursive;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal2-close {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  
+
+  
+  .modal2-content .choice-btn {
+    overflow: hidden;
+    font-family: 'Shadows Into Light', cursive;
+
+    text-align: right;
+    padding: 10px 130px 10px 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(90deg, #b4babd 0%, #4e4e50 100%);
+    cursor: pointer;
+  }
+
+  .choice-btn:hover{
+    background: linear-gradient(90deg, #ccd0d3 0%, #5f5f61 100%);
+
+  }
+
+  #pay-sol{
+    position: absolute;
+    margin-left: 77px;
+    margin-top: -1px;
+    height: 28px;
+    width: 28px;
+  }
+
+  #Sol-amount{
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    color: white;
+    font-size: 15;
+    margin-left: 80px;
+    margin-top: -20px;
+  }
+
+
+  #pay-sushi{
+    position: absolute;
+    margin-left: 75px;
+    margin-top: -3px;    
+    height: 32px;
+    width: 32px;
+  }
+
+  #Sushi-amount{
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+    color: white;
+    font-size: 15;
+    margin-left: 80px;
+    margin-top: -20px;
+  }
+
+
+  #quit2{
+    padding-left: 76px;
+    padding-right: 76px;
+    background: #702626;
+    opacity: 1;
+    cursor: pointer;
+  }
+  #quit2:hover {
+    background: linear-gradient(90deg, #975e5e 0%, #834242 80%);
+  }
+
   #bottom-sizedbox{
     width: 100%;
     height: 100px;
