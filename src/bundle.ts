@@ -136,6 +136,7 @@ function undim() {
 
 async function disconnect() {
     try{
+      document.getElementById('bottom-sizedbox')!.style.display = 'none';
       button.style.display = 'none';
       loader.style.display = 'flex';
       wallet_box.style.display = 'none';
@@ -339,6 +340,8 @@ async function connect_wallet(){
   while (wep_box.lastElementChild) {
     wep_box.removeChild(wep_box.lastElementChild);
   }
+
+  document.getElementById('bottom-sizedbox')!.style.display = 'block';
 
   setInterval(()=>{
     //console.log(window.navigator.onLine);

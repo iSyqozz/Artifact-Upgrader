@@ -875,6 +875,7 @@ body{
     height: 100px;
     top: 150px;
     position: relative;
+    display: none;
   }
 
   .info{
