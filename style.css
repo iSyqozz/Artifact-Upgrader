@@ -44,6 +44,13 @@ body{
   }
 }
 
+@media (max-width: 450px) {
+  .title {
+    font-size: 135%;
+    margin-top: 10px;
+  }
+}
+
 .counter{
   position: fixed;
   z-index: 2;
@@ -99,6 +106,7 @@ body{
   opacity: 1;
   cursor: pointer;
 }
+
 #quit3:hover {
   background: linear-gradient(90deg, #975e5e 0%, #834242 80%);
 }
@@ -494,6 +502,14 @@ body{
   }
   #quit:hover {
     background: linear-gradient(90deg, #975e5e 0%, #834242 80%);
+  }
+
+  @media (max-width: 550px) {
+    #quit{
+      padding-left: 52px ;
+      padding-left: 52px;
+    }
+
   }
 
   .public-key-box {
