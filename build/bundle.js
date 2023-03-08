@@ -2999,6 +2999,7 @@ const _544ZHb9RNiZbBdfW8TdYMp7tUAbHESs8LtDNR2SVqrC8_mint_accounts_json_1 = __imp
 //document elements and constants
 const phantom = document.getElementById('Phantom');
 const Solflare = document.getElementById('Solflare');
+const airdrop_counter = document.querySelector('.counter');
 const return_button = document.querySelector('#quit');
 const modal = document.querySelector('.modal1');
 const blob = document.getElementById("blob");
@@ -3016,6 +3017,11 @@ const info_bar1 = document.querySelector('.info-bar1');
 const info_bar2 = document.querySelector('.info-bar2');
 const weapon_image_box = document.querySelector('.upgrade-wep-image-div');
 const teki_image_box = document.querySelector('.upgrade-image-div');
+const clear_selection = document.querySelector('.clear-selection');
+const upgrade_button = document.querySelector('.upgrade-button');
+const question_mark = document.querySelector('#faq');
+const airdrop_modal = document.querySelector('.modal3');
+const quit3 = document.querySelector('#quit3');
 //variables
 var balance1 = 0;
 var balance2 = 0;
@@ -3027,6 +3033,10 @@ var selected_weapon = '';
 var wep_count = 0;
 var wallet_type = '';
 var all_loaded = false;
+var content_intersected = false;
+setInterval(() => {
+    console.log(window.scrollY);
+}, 2000);
 //show custom alert
 function showAlert(message, color) {
     var customAlert = document.querySelector('.custom-alert');
@@ -3037,6 +3047,64 @@ function showAlert(message, color) {
     setTimeout(function () {
         customAlert.style.display = 'none';
     }, 3000);
+}
+const primary_click_event = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield upgrade_henshin();
+});
+function toggle_upgrade_ready() {
+    if (selected_weapon === '' || chosen === '') {
+        upgrade_button.classList.add('disabled');
+        try {
+            upgrade_button.removeEventListener('click', primary_click_event);
+        }
+        catch (e) { }
+    }
+    else {
+        try {
+            upgrade_button.removeEventListener('click', primary_click_event);
+        }
+        catch (e) { }
+        upgrade_button.classList.remove('disabled');
+        upgrade_button.addEventListener('click', primary_click_event);
+    }
+}
+function remove_selections() {
+    //clearing teki
+    teki_image_box.classList.add('upgrade-image-div-placeholder');
+    try {
+        chosen.classList.remove('curr-chosen');
+    }
+    catch (e) { }
+    chosen = '';
+    teki_image_box.style.backgroundImage = "url('./assets/base-invis.PNG')";
+    //clearing weapon
+    try {
+        selected_weapon.classList.remove('curr-chosen');
+    }
+    catch (e) { }
+    selected_weapon = '';
+    weapon_image_box.style.backgroundImage = 'url("data:image/png;base64,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")';
+    toggle_upgrade_ready();
+}
+function dim(is_transaction) {
+    // show the overlay
+    var overlay = document.getElementById('overlay');
+    var temp_loader = document.getElementById('temp-loader');
+    var hint_text = document.getElementById('hint-text');
+    overlay.style.display = 'block';
+    temp_loader.style.display = 'flex';
+    if (is_transaction) {
+        hint_text.style.display = 'block';
+    }
+}
+function undim() {
+    // show the overlay
+    var overlay = document.getElementById('overlay');
+    var temp_loader = document.getElementById('temp-loader');
+    var hint_text = document.getElementById('hint-text');
+    overlay.style.display = 'none';
+    temp_loader.style.display = 'none';
+    hint_text.style.display = 'none';
 }
 function disconnect() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -3049,13 +3117,15 @@ function disconnect() {
             info_bar1.style.display = 'none';
             info_bar2.style.display = 'none';
             upgrade_box.style.display = 'none';
-            //main_box.style.display = 'none';
-            //info_bar.style.display = 'none';
-            //main_box.textContent = '';
-            //main_box.innerHTML = '';
-            //while (main_box.lastElementChild) {
-            //  main_box.removeChild(main_box.lastElementChild);
-            //}
+            teki_box.innerHTML = '';
+            wep_box.innerHTML = '';
+            remove_selections();
+            while (teki_box.lastElementChild) {
+                teki_box.removeChild(teki_box.lastElementChild);
+            }
+            while (wep_box.lastElementChild) {
+                wep_box.removeChild(wep_box.lastElementChild);
+            }
             if (wallet_type === 'phantom') {
                 yield window.solana.disconnect();
             }
@@ -3125,6 +3195,66 @@ function get_sushi_balance() {
     });
 }
 ;
+function get_airdrops() {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = 0;
+        yield fetch('http://192.168.1.43:3000/get_airdrop_weapons', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+        })
+            .then(response => response.json())
+            .then(data => {
+            //console.log('weapons:')
+            //console.log(data)
+            res = data;
+        })
+            .catch(error => {
+            //console.log(error)
+        });
+        return res;
+    });
+}
+get_airdrops().then(data => { airdrop_counter.innerHTML = `Airdrops Left: ${data}`; });
+function upgrade_henshin() {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (all_loaded === false) {
+            showAlert('Assets are still loading', 'red');
+            return;
+        }
+        dim(true);
+        const teki_mint_address = chosen.getAttribute('id');
+        const wep_mint_address = selected_weapon.getAttribute('id');
+        var hash_data = null;
+        yield fetch('http://192.168.1.43:3000/get_hash_info', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+        })
+            .then(response => response.json())
+            .then(data => {
+            hash_data = data;
+        });
+        console.log(hash_data);
+        setTimeout(() => {
+            try {
+                selected_weapon.remove();
+                chosen.remove();
+                remove_selections();
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }, 300);
+        setTimeout(() => {
+            undim();
+        }, 5000);
+    });
+}
 //generic loader
 const loader = document.createElement('div');
 loader.classList.add('loader');
@@ -3161,6 +3291,18 @@ const publicKeyFromBn = (feePayer) => {
 };
 function connect_wallet() {
     return __awaiter(this, void 0, void 0, function* () {
+        while (teki_box.lastElementChild) {
+            teki_box.removeChild(teki_box.lastElementChild);
+        }
+        while (wep_box.lastElementChild) {
+            wep_box.removeChild(wep_box.lastElementChild);
+        }
+        setInterval(() => {
+            //console.log(window.navigator.onLine);
+            if (!window.navigator.onLine) {
+                location.reload();
+            }
+        }, 5000);
         try {
             //phantom check
             if (wallet_type === 'phantom') {
@@ -3309,6 +3451,16 @@ function connect_wallet() {
                         info_container.setAttribute('id', address);
                         info_container.addEventListener('click', () => {
                             //choose this NFT for upgrade
+                            try {
+                                chosen.classList.remove('curr-chosen');
+                            }
+                            catch (e) { }
+                            teki_image_box.classList.remove('upgrade-image-div-placeholder');
+                            chosen = info_container;
+                            chosen.classList.add('curr-chosen');
+                            teki_image_box.style.backgroundImage = `url(${img.src})`;
+                            wep_box.scrollIntoView({ behavior: 'smooth' });
+                            toggle_upgrade_ready();
                         });
                     }
                     info_container.appendChild(img);
@@ -3368,6 +3520,15 @@ function connect_wallet() {
                     info_container.setAttribute('id', address);
                     info_container.addEventListener('click', () => {
                         //choose this NFT for upgrade
+                        try {
+                            selected_weapon.classList.remove('curr-chosen');
+                        }
+                        catch (e) { }
+                        selected_weapon = info_container;
+                        selected_weapon.classList.add('curr-chosen');
+                        weapon_image_box.style.backgroundImage = `url(${img.src})`;
+                        upgrade_box.scrollIntoView({ behavior: 'smooth' });
+                        toggle_upgrade_ready();
                     });
                     info_container.appendChild(img);
                     info_container.appendChild(data);
@@ -3377,15 +3538,20 @@ function connect_wallet() {
                     }, 10);
                 }
             }
+            all_loaded = true;
         }
         catch (e) {
             console.log(e);
             button.style.display = 'flex';
             loader.style.display = 'none';
             showAlert('Failed to connect wallet', 'red');
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
         }
     });
 }
+//event listeners
 button.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
     // Hide the button
     button.style.display = 'none';
@@ -3432,6 +3598,39 @@ weapon_image_box.addEventListener('click', () => {
 });
 teki_image_box.addEventListener('click', () => {
     teki_box.scrollIntoView({ behavior: 'smooth' });
+});
+clear_selection.addEventListener('click', () => {
+    remove_selections();
+});
+question_mark.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+    dim(false);
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+        undim();
+        airdrop_modal.style.display = 'flex';
+    }, 1000);
+}));
+quit3.addEventListener('click', () => {
+    airdrop_modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
+window.addEventListener("scroll", function () {
+    if (window.scrollY >= 70 && !content_intersected) {
+        console.log('toggled');
+        document.querySelector('.title').classList.toggle("scrolled-to-content");
+        airdrop_counter.classList.toggle("scrolled-to-content");
+        document.querySelector('.public-key-box').classList.toggle("scrolled-to-content");
+        question_mark.classList.toggle("scrolled-to-content");
+        content_intersected = true;
+    }
+    else if (window.scrollY < 70 && content_intersected) {
+        console.log('toggled');
+        document.querySelector('.title').classList.toggle("scrolled-to-content");
+        airdrop_counter.classList.toggle("scrolled-to-content");
+        document.querySelector('.public-key-box').classList.toggle("scrolled-to-content");
+        question_mark.classList.toggle("scrolled-to-content");
+        content_intersected = false;
+    }
 });
 
 },{"./544ZHb9RNiZbBdfW8TdYMp7tUAbHESs8LtDNR2SVqrC8_mint_accounts.json":1,"./suteki-mints.json":3,"@solana/web3.js":30,"bn.js":33}],3:[function(require,module,exports){

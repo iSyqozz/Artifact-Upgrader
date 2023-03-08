@@ -21,16 +21,33 @@
         <div id="blur"></div>
     </div>
 
+    <div id="overlay"><div class="loader" id="temp-loader"></div><div id="hint-text">NFT rank will update shortly after signing and confirming the transaction.<br/><br/><br/>NFT(s) will be removed from view to process on-chain update.</div></div>
     <div id="popup">
         <div id="popup-content">
           <p>Here's some information for you!</p>
         </div>
-    </div>  
+    </div>
+    <img src="./assets/q.png" id="faq">
+    <div class="counter">Airdrops Left:</div>
+
+    <div class="modal3">
+      <div class="modal3-box">
+        <div class="modal3-content">
+            <h2 class="modal3-title">Airdrops</h2>
+            <div id="modal3-text">
+              First 500 wallets that upgrade with the Sol option will have a <span id="percentage">25%</span> chance of getting an airdrop of a random Blacksmith's Armory weapon.
+            <br/>&nbsp;  &#160;
+            </div>
+            <button class="wallet-btn" id="quit3">Return</button>
+          </div>
+        </div>
+    </div>
+
   
     <div class="title">
         <b>Artifact Incubator
     </div>
-        <button id="button"><span>Connect Wallet</span></button></body>
+        <button id="button"><span>Connect Wallet</span></button>
 
     <div class="modal1">
         <div class="modal1-box">
@@ -50,21 +67,28 @@
       </div>
       <button id="disconnect-button">Disconnect</button>
     </div>
+
       <div class="image-box"></div>
+      
       <div class="info-bar1">
         <img id="sol-pic-info-bar" src="./assets/sol.png" alt="">
         <img id="sushi-pic-info-bar" src="./assets/sushi.png" alt="">
         <p id="sol-balance">Balance: 0.0</p>
         <p id="sushi-balance">Balance: 0.0</p>
       </div>
+
       <div class="weapon-box"></div>
+
       <div class="info-bar2">
         <p id="weapon-counter">Weapon Count: 0</p>
       </div>
+
       <div class="upgrade-box">
         <div class="upgrade-frame">
-            <div class="upgrade-wep-image-div"></div>
-          <div class="upgrade-image-div"></div>
+          <div class="upgrade-wep-image-div"></div>
+          <div class="upgrade-image-div upgrade-image-div-placeholder"></div>
+          <div class="clear-selection"></div>
+          <div class="upgrade-button disabled"><span>Ascend Henshin</span></div>
         </div>
       </div>
       <div id="bottom-sizedbox"></div>
