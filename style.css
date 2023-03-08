@@ -979,6 +979,7 @@ body{
     width: 28px;
   }
 
+
   #Sol-amount{
     font-family: 'Courier New', Courier, monospace;
     position: absolute;
@@ -1016,6 +1017,15 @@ body{
   }
   #quit2:hover {
     background: linear-gradient(90deg, #975e5e 0%, #834242 80%);
+  }
+
+  @media only screen and (max-width: 600px) {
+    #pay-sol{
+      margin-top: -20px;
+    }
+    #pay-sushi{
+      margin-top: -20px;
+    }
   }
 
   #bottom-sizedbox{
@@ -1176,6 +1186,13 @@ body{
       }
   }
   @media only screen and (max-width: 550px){
+
+    #pay-sol{
+      margin-top: -20px;
+    }
+    #pay-sushi{
+      margin-top: -20px;
+    }
 
     .image-box{
         width: 320px;
