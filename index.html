@@ -14,7 +14,17 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="style.css">
-</head>
+    
+    <!-- Font Awesome CSS -->
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
+    <!-- jQuery JS -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <!-- TweenMax JS -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js'></script>
+    <!-- Underscore JS -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js'></script>
+
+  </head>
 <body>
     <div>
         <div id="blob"></div>
@@ -47,6 +57,11 @@
     <div class="title">
         <b>Artifact Incubator</b>
     </div>
+
+    <div class="congrats">
+      <h1>Congratulations!</h1>
+    </div>
+
         <button id="button"><span>Connect Wallet</span></button>
 
     <div class="modal1">
@@ -114,7 +129,7 @@
     <div class="custom-alert">
         <p id="custom-alert-message"></p>
       </div>
-    <script type="module" src="build/bundle.js"></script>
-
+      <script type="module" src="build/bundle.js"></script>
+      <script src="build/jquery_animation.js"></script>
 </body>
 </html>

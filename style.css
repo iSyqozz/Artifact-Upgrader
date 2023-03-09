@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Sigmar One';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://fonts.gstatic.com/s/sigmarone/v15/co3DmWZ8kjZuErj9Ta3do6Tpow.ttf') format('truetype');
+}
+
+
 body{
     width: 100%;
     height: 100%;
@@ -1322,5 +1330,51 @@ body{
   @media only screen and (max-height: 720px) {
     #faq{
       display: none;
+    }
+
+  }
+
+
+
+
+/*congratulations Animation*/
+  .congrats{
+    z-index: 15;
+    position: fixed;
+    top: 60%;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+  
+  .congrats h1 {
+    font-size: 30px;
+    color: white;
+    letter-spacing: 3px;
+    font-family: 'Shadows Into Light', cursive;
+    z-index: 9;
+    top: 0;
+    width: 100%;
+  }
+  
+  .Blob {
+    height: 50px;
+    width: 50px;
+    color: #225fbb;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    z-index: 1;
+    font-size: 30px;
+    display: none;
+  }
+
+
+  @media only screen and (max-width: 650px){
+    .congrats h1{
+      font-size: 30px;
     }
   }

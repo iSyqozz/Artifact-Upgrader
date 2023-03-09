@@ -39,8 +39,8 @@ const airdrop_modal = document.querySelector('.modal3')as HTMLElement;
 const quit3 = document.querySelector('#quit3')as HTMLElement;
 const choice_modal = document.querySelector('.modal2')as HTMLElement;
 const quit2 = document.querySelector('#quit2')as HTMLElement;
-
-
+const sol_choice = document.querySelector('#pay-sol-button')as HTMLElement;
+const sushi_choice = document.querySelector('#pay-sushi-button')as HTMLElement;
 
 
 //variables
@@ -57,9 +57,6 @@ var wallet_type:string = '';
 var all_loaded:boolean = false;
 var content_intersected:boolean = false;
 
-setInterval(() => {
-  console.log(window.scrollY);
-}, 2000);
 
 
 //show custom alert
@@ -78,10 +75,12 @@ function showAlert(message:string,color:string) {
 
 
 const primary_click_event = async ()=>{
+  if (all_loaded === false){
+    showAlert('Assets are still loading','red')
+    return
+  }
   choice_modal.style.display = 'flex';
-  //await upgrade_henshin()
 }
-
 
 function toggle_upgrade_ready(){
   if (selected_weapon === '' || chosen === ''){
@@ -154,6 +153,7 @@ async function disconnect() {
       upgrade_box.style.display =  'none';
       teki_box.innerHTML = '';
       wep_box.innerHTML = '';
+      wep_count = 0;
       remove_selections();
       while (teki_box.lastElementChild) {
         teki_box.removeChild(teki_box.lastElementChild);
@@ -186,7 +186,7 @@ async function disconnect() {
 async function get_sol_balance(){
 
     var res:number = 0;
-    await fetch('https://saisei-server.com/get_balance', {
+    await fetch('http://192.168.1.43:3000/get_balance', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ async function get_sol_balance(){
 async function get_sushi_balance(){
 
     var res:number = 0;
-    await fetch('https://saisei-server.com/get_sushi', {
+    await fetch('http://192.168.1.43:3000/get_sushi', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -234,7 +234,7 @@ async function get_sushi_balance(){
   async function get_airdrops(){
 
     var res:number = 0;
-    await fetch('https://saisei-server.com/get_airdrop_weapons', {
+    await fetch('http://192.168.1.43:3000/get_airdrop_weapons', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -256,18 +256,13 @@ async function get_sushi_balance(){
 get_airdrops().then(data => {airdrop_counter.innerHTML = `Airdrops Left: ${data}`;})
 
 
-async function upgrade_henshin() {
-  if (all_loaded === false){
-    showAlert('Assets are still loading','red')
-    return
-  }
-
-  dim(true);
-
+async function upgrade_henshin(is_sol:boolean) {
+  try{
   const teki_mint_address = chosen.getAttribute('id');
   const wep_mint_address = selected_weapon.getAttribute('id');
   var hash_data:any = null;
-  await fetch('https://saisei-server.com/get_hash_info', {
+
+  await fetch('http://192.168.1.43:3000/get_hash_info', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -279,20 +274,154 @@ async function upgrade_henshin() {
     hash_data = data 
   })
   console.log(hash_data);
-
-  setTimeout(() => {
-    try{
-      selected_weapon.remove()
-      chosen.remove()      
-      remove_selections();
-    }catch(e){
-      console.log(e);
-    }
-  }, 300);
+  dim(true);
   
-  setTimeout(() => {
+  //Sol option
+  if (is_sol){
+    await fetch('http://192.168.1.43:3000/get_artifact_sol_transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      body:JSON.stringify({
+        owner_address:owner,
+        wep:wep_mint_address,
+        wallet:wallet_type,
+      })
+    })
+    .then(response => response.json())
+    .then(async data =>{
+      const transactionBuffer = Buffer.from(data, 'base64');
+      const tx = Transaction.from(transactionBuffer);
+
+
+      if (wallet_type === 'phantom'){
+
+        var sig:any = null;
+        sig = await window.solana.signAndSendTransaction(tx,{skipPreflight: false});
+        }else{   
+        const signed = await window.solflare.signTransaction(tx);
+        const temp = signed.serialize({requireAllSignatures:true,verifySignatures:true})
+        const transactionBase64 = Buffer.from(temp).toString('base64'); 
+        await fetch('http://192.168.1.43:3000/submit_solflare_transaction',{
+          method:"POST",
+          headers:{
+            'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+              serialized_transaction:transactionBase64 
+            }),
+        })
+        .then(response => response.json())
+        .then(data =>{
+          sig = data
+        })}
+
+        console.log(wallet_type === 'phantom'?sig.signature:sig)
+        showAlert('Successfully confirmed transaction','teal');
+        choice_modal.style.display = 'none';
+        undim();
+
+        setTimeout(() => {
+          try{
+            selected_weapon.remove()
+            chosen.remove()      
+            remove_selections();
+            wep_count -=1;
+            wep_counter.textContent = `Weapon Count: ${wep_count}`;
+          }catch(e){
+            console.log(e);
+          }
+          }, 300);
+          
+        setTimeout(async () => {
+            balance1 = await get_sol_balance();
+            sol_balance!.textContent = `Balance: ${(balance1 / (1000000000)).toString().substring(0,5)}`;
+
+          }, 30000);
+    
+      })
+
+  
+  //Sushi option
+  }else{
+
+    await fetch('http://192.168.1.43:3000/get_artifact_sushi_transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      body:JSON.stringify({
+        owner_address:owner,
+        wep:wep_mint_address,
+        wallet:wallet_type,
+      })
+    })
+    .then(response => response.json())
+    .then(async data =>{
+      const transactionBuffer = Buffer.from(data, 'base64');
+      const tx = Transaction.from(transactionBuffer);
+
+
+      if (wallet_type === 'phantom'){
+
+        var sig:any = null;
+        sig = await window.solana.signAndSendTransaction(tx,{skipPreflight: false});
+        }else{   
+        const signed = await window.solflare.signTransaction(tx);
+        const temp = signed.serialize({requireAllSignatures:true,verifySignatures:true})
+        const transactionBase64 = Buffer.from(temp).toString('base64'); 
+        await fetch('http://192.168.1.43:3000/submit_solflare_transaction',{
+          method:"POST",
+          headers:{
+            'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+              serialized_transaction:transactionBase64 
+            }),
+        })
+        .then(response => response.json())
+        .then(data =>{
+          sig = data
+        })}
+
+        console.log(wallet_type === 'phantom'?sig.signature:sig)
+        showAlert('Successfully confirmed transaction','teal');
+        choice_modal.style.display = 'none';
+        undim();
+        setTimeout(() => {
+          try{
+            wep_count -=1;
+            wep_counter.textContent = `Weapon Count: ${wep_count}`;
+            selected_weapon.remove()
+            chosen.remove()      
+            remove_selections();
+          }catch(e){
+            console.log(e);
+          }
+          }, 300);
+          
+          setTimeout(async () => {
+            balance1 = await get_sol_balance();
+            sol_balance!.textContent = `Balance: ${(balance1 / (1000000000)).toString().substring(0,5)}`;
+          }, 30000);
+    
+      })
+
+    
+
+
+  }
+  
+
+  
+  }catch(e){
     undim();
-  }, 5000);
+    showAlert('Failed to finalize transaction','red');
+    console.log(e);
+  }
 }
 
 //generic loader
@@ -422,7 +551,7 @@ async function connect_wallet(){
 
         //getting assets in connected wallet
         let tokenAccounts:any = null;
-        const temp = await fetch('https://saisei-server.com/get_tokens_data', {
+        const temp = await fetch('http://192.168.1.43:3000/get_tokens_data', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -462,7 +591,7 @@ async function connect_wallet(){
               
                 //fetching required data
                 var nft_data:Array<string> = [];
-                await fetch('https://saisei-server.com/get_nft_data', {
+                await fetch('http://192.168.1.43:3000/get_nft_data', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
@@ -565,7 +694,7 @@ async function connect_wallet(){
                   }
 
                 var nft_data:Array<string> = [];
-                await fetch('https://saisei-server.com/get_wep_data', {
+                await fetch('http://192.168.1.43:3000/get_wep_data', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
@@ -741,7 +870,18 @@ window.addEventListener("scroll", function() {
     }
   })
 
+sol_choice.addEventListener('click', async function(e){
+  upgrade_henshin(true);
+  })
+    
+sushi_choice.addEventListener('click',async function(e){
+  upgrade_henshin(false);
+  })
+
+
 quit2.addEventListener('click', function(e) {
     choice_modal.style.display = 'none'
     //console.log(chosen);
   });
+
+

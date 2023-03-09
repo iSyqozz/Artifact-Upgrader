@@ -2978,6 +2978,7 @@ module.exports=[
 ]
 
 },{}],2:[function(require,module,exports){
+(function (Buffer){(function (){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -3024,6 +3025,8 @@ const airdrop_modal = document.querySelector('.modal3');
 const quit3 = document.querySelector('#quit3');
 const choice_modal = document.querySelector('.modal2');
 const quit2 = document.querySelector('#quit2');
+const sol_choice = document.querySelector('#pay-sol-button');
+const sushi_choice = document.querySelector('#pay-sushi-button');
 //variables
 var balance1 = 0;
 var balance2 = 0;
@@ -3036,9 +3039,6 @@ var wep_count = 0;
 var wallet_type = '';
 var all_loaded = false;
 var content_intersected = false;
-setInterval(() => {
-    console.log(window.scrollY);
-}, 2000);
 //show custom alert
 function showAlert(message, color) {
     var customAlert = document.querySelector('.custom-alert');
@@ -3051,8 +3051,11 @@ function showAlert(message, color) {
     }, 3000);
 }
 const primary_click_event = () => __awaiter(void 0, void 0, void 0, function* () {
+    if (all_loaded === false) {
+        showAlert('Assets are still loading', 'red');
+        return;
+    }
     choice_modal.style.display = 'flex';
-    //await upgrade_henshin()
 });
 function toggle_upgrade_ready() {
     if (selected_weapon === '' || chosen === '') {
@@ -3123,6 +3126,7 @@ function disconnect() {
             upgrade_box.style.display = 'none';
             teki_box.innerHTML = '';
             wep_box.innerHTML = '';
+            wep_count = 0;
             remove_selections();
             while (teki_box.lastElementChild) {
                 teki_box.removeChild(teki_box.lastElementChild);
@@ -3152,7 +3156,7 @@ function disconnect() {
 function get_sol_balance() {
     return __awaiter(this, void 0, void 0, function* () {
         var res = 0;
-        yield fetch('https://saisei-server.com/get_balance', {
+        yield fetch('http://192.168.1.43:3000/get_balance', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -3177,7 +3181,7 @@ function get_sol_balance() {
 function get_sushi_balance() {
     return __awaiter(this, void 0, void 0, function* () {
         var res = 0;
-        yield fetch('https://saisei-server.com/get_sushi', {
+        yield fetch('http://192.168.1.43:3000/get_sushi', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -3202,7 +3206,7 @@ function get_sushi_balance() {
 function get_airdrops() {
     return __awaiter(this, void 0, void 0, function* () {
         var res = 0;
-        yield fetch('https://saisei-server.com/get_airdrop_weapons', {
+        yield fetch('http://192.168.1.43:3000/get_airdrop_weapons', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -3222,41 +3226,155 @@ function get_airdrops() {
     });
 }
 get_airdrops().then(data => { airdrop_counter.innerHTML = `Airdrops Left: ${data}`; });
-function upgrade_henshin() {
+function upgrade_henshin(is_sol) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (all_loaded === false) {
-            showAlert('Assets are still loading', 'red');
-            return;
+        try {
+            const teki_mint_address = chosen.getAttribute('id');
+            const wep_mint_address = selected_weapon.getAttribute('id');
+            var hash_data = null;
+            yield fetch('http://192.168.1.43:3000/get_hash_info', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+            })
+                .then(response => response.json())
+                .then(data => {
+                hash_data = data;
+            });
+            console.log(hash_data);
+            dim(true);
+            //Sol option
+            if (is_sol) {
+                yield fetch('http://192.168.1.43:3000/get_artifact_sol_transaction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        owner_address: owner,
+                        wep: wep_mint_address,
+                        wallet: wallet_type,
+                    })
+                })
+                    .then(response => response.json())
+                    .then((data) => __awaiter(this, void 0, void 0, function* () {
+                    const transactionBuffer = Buffer.from(data, 'base64');
+                    const tx = web3_js_1.Transaction.from(transactionBuffer);
+                    if (wallet_type === 'phantom') {
+                        var sig = null;
+                        sig = yield window.solana.signAndSendTransaction(tx, { skipPreflight: false });
+                    }
+                    else {
+                        const signed = yield window.solflare.signTransaction(tx);
+                        const temp = signed.serialize({ requireAllSignatures: true, verifySignatures: true });
+                        const transactionBase64 = Buffer.from(temp).toString('base64');
+                        yield fetch('http://192.168.1.43:3000/submit_solflare_transaction', {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                serialized_transaction: transactionBase64
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                            sig = data;
+                        });
+                    }
+                    console.log(wallet_type === 'phantom' ? sig.signature : sig);
+                    showAlert('Successfully confirmed transaction', 'teal');
+                    choice_modal.style.display = 'none';
+                    undim();
+                    setTimeout(() => {
+                        try {
+                            selected_weapon.remove();
+                            chosen.remove();
+                            remove_selections();
+                            wep_count -= 1;
+                            wep_counter.textContent = `Weapon Count: ${wep_count}`;
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    }, 300);
+                    setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+                        balance1 = yield get_sol_balance();
+                        sol_balance.textContent = `Balance: ${(balance1 / (1000000000)).toString().substring(0, 5)}`;
+                    }), 30000);
+                }));
+                //Sushi option
+            }
+            else {
+                yield fetch('http://192.168.1.43:3000/get_artifact_sushi_transaction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({
+                        owner_address: owner,
+                        wep: wep_mint_address,
+                        wallet: wallet_type,
+                    })
+                })
+                    .then(response => response.json())
+                    .then((data) => __awaiter(this, void 0, void 0, function* () {
+                    const transactionBuffer = Buffer.from(data, 'base64');
+                    const tx = web3_js_1.Transaction.from(transactionBuffer);
+                    if (wallet_type === 'phantom') {
+                        var sig = null;
+                        sig = yield window.solana.signAndSendTransaction(tx, { skipPreflight: false });
+                    }
+                    else {
+                        const signed = yield window.solflare.signTransaction(tx);
+                        const temp = signed.serialize({ requireAllSignatures: true, verifySignatures: true });
+                        const transactionBase64 = Buffer.from(temp).toString('base64');
+                        yield fetch('http://192.168.1.43:3000/submit_solflare_transaction', {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                serialized_transaction: transactionBase64
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                            sig = data;
+                        });
+                    }
+                    console.log(wallet_type === 'phantom' ? sig.signature : sig);
+                    showAlert('Successfully confirmed transaction', 'teal');
+                    choice_modal.style.display = 'none';
+                    undim();
+                    setTimeout(() => {
+                        try {
+                            wep_count -= 1;
+                            wep_counter.textContent = `Weapon Count: ${wep_count}`;
+                            selected_weapon.remove();
+                            chosen.remove();
+                            remove_selections();
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    }, 300);
+                    setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+                        balance1 = yield get_sol_balance();
+                        sol_balance.textContent = `Balance: ${(balance1 / (1000000000)).toString().substring(0, 5)}`;
+                    }), 30000);
+                }));
+            }
         }
-        dim(true);
-        const teki_mint_address = chosen.getAttribute('id');
-        const wep_mint_address = selected_weapon.getAttribute('id');
-        var hash_data = null;
-        yield fetch('https://saisei-server.com/get_hash_info', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-        })
-            .then(response => response.json())
-            .then(data => {
-            hash_data = data;
-        });
-        console.log(hash_data);
-        setTimeout(() => {
-            try {
-                selected_weapon.remove();
-                chosen.remove();
-                remove_selections();
-            }
-            catch (e) {
-                console.log(e);
-            }
-        }, 300);
-        setTimeout(() => {
+        catch (e) {
             undim();
-        }, 5000);
+            showAlert('Failed to finalize transaction', 'red');
+            console.log(e);
+        }
     });
 }
 //generic loader
@@ -3365,7 +3483,7 @@ function connect_wallet() {
             sushi_balance.textContent = `Balance: ${balance2.toString().substring(0, 8)}`;
             //getting assets in connected wallet
             let tokenAccounts = null;
-            const temp = yield fetch('https://saisei-server.com/get_tokens_data', {
+            const temp = yield fetch('http://192.168.1.43:3000/get_tokens_data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -3400,7 +3518,7 @@ function connect_wallet() {
                     }
                     //fetching required data
                     var nft_data = [];
-                    yield fetch('https://saisei-server.com/get_nft_data', {
+                    yield fetch('http://192.168.1.43:3000/get_nft_data', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -3484,7 +3602,7 @@ function connect_wallet() {
                         wep_box.appendChild(size1);
                     }
                     var nft_data = [];
-                    yield fetch('https://saisei-server.com/get_wep_data', {
+                    yield fetch('http://192.168.1.43:3000/get_wep_data', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -3637,12 +3755,23 @@ window.addEventListener("scroll", function () {
         content_intersected = false;
     }
 });
+sol_choice.addEventListener('click', function (e) {
+    return __awaiter(this, void 0, void 0, function* () {
+        upgrade_henshin(true);
+    });
+});
+sushi_choice.addEventListener('click', function (e) {
+    return __awaiter(this, void 0, void 0, function* () {
+        upgrade_henshin(false);
+    });
+});
 quit2.addEventListener('click', function (e) {
     choice_modal.style.display = 'none';
     //console.log(chosen);
 });
 
-},{"./544ZHb9RNiZbBdfW8TdYMp7tUAbHESs8LtDNR2SVqrC8_mint_accounts.json":1,"./suteki-mints.json":3,"@solana/web3.js":30,"bn.js":33}],3:[function(require,module,exports){
+}).call(this)}).call(this,require("buffer").Buffer)
+},{"./544ZHb9RNiZbBdfW8TdYMp7tUAbHESs8LtDNR2SVqrC8_mint_accounts.json":1,"./suteki-mints.json":3,"@solana/web3.js":30,"bn.js":33,"buffer":61}],3:[function(require,module,exports){
 module.exports=[
     "122FgrdhgHyNVdnPBWpC1EU59izZXzeJby9cCxREkFct",
     "12C8zniKNAQ42NMv6fGsxwAXsTkLhA9MF1Xv5xAC5fNZ",
