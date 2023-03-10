@@ -1335,10 +1335,9 @@ body{
   }
 
 
-
-
 /*congratulations Animation*/
   .congrats{
+    display: none;
     z-index: 15;
     position: fixed;
     top: 60%;
@@ -1348,6 +1347,10 @@ body{
     margin: 0 auto;
     left: 0;
     right: 0;
+    box-shadow: 0 0 0 1000px rgba(0,0,0,.3);
+    /* for real browsers */
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,.3);
+    pointer-events: none;
   }
   
   .congrats h1 {
@@ -1378,3 +1381,91 @@ body{
       font-size: 30px;
     }
   }
+
+  .prize{
+    display: none;
+    opacity: 1;
+    position: fixed;
+    z-index: 17;
+    left: 50%;
+    top: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 200rem;
+    border: 2px solid #89cff0;
+    transform: translate(-55%,-50%) scale(1.5);
+    box-shadow: 0 0 0 1000px rgba(0,0,0,.3);
+    /* for real browsers */
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,.3);
+    pointer-events: none;
+  }
+
+/* Sun  */
+.theSun {
+  display: none;
+	opacity: 1;
+	box-shadow: 0px 0px 15px 3px rgb(255, 255, 255);
+	width: 100px;
+	height: 100px;
+	position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-55%,-50%) scale(1.5);
+	animation: sunpulse 2s alternate infinite;
+	border-radius: 50%;
+	background-image: radial-gradient(circle, #25ddfd 95%, #c7edff);
+  box-shadow: 0 0 0 1000px rgba(0,0,0,.3);
+  /* for real browsers */
+  box-shadow: 0 0 0 100vmax rgba(0,0,0,.3);
+  pointer-events: none;
+}
+
+@keyframes sunpulse {
+	from {
+		box-shadow: 0 0 100px rgb(167, 203, 218), 0 0 100px rgb(116, 192, 228);
+	}
+	to {
+		box-shadow: 0 0 25px rgb(230, 235, 238), 0 0 75px rgb(199, 229, 248);
+	}
+}
+
+/* Sun rays */
+.ray_box {
+	position: absolute;
+	margin: auto;
+	top: 0px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 70px;
+	animation: ray_anim 8s linear infinite;
+}
+
+.ray {
+	background: -webkit-linear-gradient(
+		top,
+		rgba(177, 219, 231, 0.2) 0%,
+		rgba(255, 255, 255, 0.8) 50%,
+		rgba(200, 240, 243, 0.2) 100%
+	);
+	background: linear-gradient(
+		top,
+		rgba(255, 255, 255, 0.2) 0%,
+		rgba(255, 255, 255, 0.8) 50%,
+		rgba(255, 255, 255, 0.2) 100%
+	);
+	margin-left: 10px;
+	border-radius: 80% 80% 0 0;
+	position: absolute;
+	opacity: 0.1;
+}
+@keyframes ray_anim {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+
