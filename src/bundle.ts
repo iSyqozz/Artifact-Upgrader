@@ -381,6 +381,7 @@ async function upgrade_henshin(is_sol:boolean) {
             sol: true,
             teki_name:teki_name,
             wep_name:wep_name,
+            owner:owner
           }),
         })
         .then(response => response.json())
@@ -419,8 +420,8 @@ async function upgrade_henshin(is_sol:boolean) {
             }, 300);
                         
           setTimeout(async () => {
-              balance1 = await get_sol_balance();
-              sol_balance!.textContent = `Balance: ${(balance1 / (1000000000)).toString().substring(0,5)}`;
+            balance1 = await get_sol_balance();
+            sol_balance!.textContent = `Balance: ${(balance1 / (1000000000)).toString().substring(0,5)}`;
             
             }, 30000);
 
@@ -491,6 +492,7 @@ async function upgrade_henshin(is_sol:boolean) {
             sol: false,
             teki_name:teki_name,
             wep_name:wep_name,
+            owner:owner
           }),
         })
         .then(response => response.json())
